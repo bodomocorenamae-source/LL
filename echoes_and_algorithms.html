@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Echoes & Algorithms: an interactive electronic portfolio exploring media, information literacy, and RAVAT.">
+<title>Echoes & Algorithms | Navigating the Media Spectrum</title>
+<style>
+:root{--bg:#0b1020;--panel:#151e35;--panel2:#202b49;--ink:#f5f6ff;--muted:#bac3d9;--cyan:#70e4df;--violet:#b4a1ff;--pink:#ff8fc4;--gold:#ffda88;--line:#34415f}
+*{box-sizing:border-box;scroll-behavior:smooth}
+body{margin:0;background:radial-gradient(circle at 80% 4%,#263b65 0,transparent 27%),radial-gradient(circle at 4% 35%,#30234f 0,transparent 25%),var(--bg);color:var(--ink);font:16px/1.7 system-ui,-apple-system,Segoe UI,sans-serif}
+a{color:var(--cyan)}
+nav{position:sticky;top:0;z-index:99;background:#0b1020ed;backdrop-filter:blur(14px);border-bottom:1px solid var(--line);padding:12px 5%;display:flex;align-items:center;justify-content:space-between;gap:16px}
+.logo{font-weight:900;letter-spacing:.04em;color:var(--violet);white-space:nowrap}
+nav ul{display:flex;gap:15px;align-items:center;list-style:none;margin:0;padding:0;flex-wrap:wrap}
+nav a{text-decoration:none;color:var(--muted);font-size:.84rem}
+nav a:hover{color:var(--cyan)}
+.menu{display:none;background:none;color:white;border:0;font-size:1.5rem}
+.hero{min-height:88vh;display:grid;place-items:center;text-align:center;padding:6rem 1.3rem;background:radial-gradient(circle at 50% 50%,#26375c88,transparent 55%)}
+.hero-inner{max-width:900px}
+.kicker,.eyebrow{color:var(--cyan);text-transform:uppercase;letter-spacing:.2em;font-weight:800;font-size:.76rem}
+h1{font-size:clamp(3rem,9vw,6.7rem);line-height:.98;letter-spacing:-.065em;margin:1.1rem 0}
+h1 span{background:linear-gradient(100deg,var(--cyan),var(--violet),var(--pink));background-clip:text;color:transparent}
+.hero p{max-width:720px;margin:1.5rem auto;color:var(--muted);font-size:1.15rem}
+.btn{display:inline-block;border:0;border-radius:999px;padding:.85rem 1.35rem;background:linear-gradient(100deg,var(--cyan),var(--violet));color:#10172a;text-decoration:none;font-weight:850;cursor:pointer}
+.btn:hover{filter:brightness(1.08);transform:translateY(-2px)}
+main{max-width:1160px;margin:auto;padding:0 1.25rem 4rem}
+section{padding:4.6rem 0;scroll-margin-top:65px}
+.section-head{text-align:center;margin:0 auto 2rem;max-width:820px}
+.section-head h2{font-size:clamp(2rem,5vw,3.1rem);line-height:1.12;letter-spacing:-.04em;margin:.45rem 0;color:var(--violet)}
+.section-head p,.muted{color:var(--muted)}
+.intro{max-width:850px;margin:auto;text-align:center;color:var(--muted)}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:1rem;margin-top:1.6rem}
+.card{background:linear-gradient(145deg,#1b2845,#111a2e);border:1px solid var(--line);border-radius:18px;padding:1.35rem;transition:.22s}
+.card:hover{transform:translateY(-5px);border-color:var(--cyan)}
+.card .icon{font-size:2rem}
+.card h3{color:var(--cyan);margin:.45rem 0}
+.card p,.card li{color:var(--muted)}
+.card ul{padding-left:1.2rem}
+.band{background:#121a2e;border-block:1px solid #27334f}
+.callout{border-left:3px solid var(--pink);padding:1rem 1.2rem;background:#1a2037;border-radius:0 14px 14px 0;color:var(--muted);margin:1.3rem 0}
+.ravat-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:1rem}
+.ravat-card{background:#18233c;border:1px solid #3a496c;border-radius:18px;padding:1.3rem}
+.ravat-card h3{color:var(--gold);margin:.2rem 0}
+.ravat-card .letter{font-size:2.2rem;font-weight:900;color:var(--violet)}
+.ravat-card p{color:var(--muted)}
+.prompt{color:var(--cyan);font-weight:700}
+.example{background:linear-gradient(135deg,#1b2947,#251f42);border:1px solid #4b4b79;padding:1.5rem;border-radius:18px}
+.table-wrap{overflow-x:auto}
+table{width:100%;border-collapse:collapse;background:#151e35;border-radius:14px;overflow:hidden}
+th,td{padding:.9rem;text-align:left;border-bottom:1px solid var(--line);vertical-align:top}
+th{color:var(--cyan);background:#202b49}td{color:var(--muted)}
+.quiz{max-width:850px;margin:auto;background:#151e35;border:1px solid var(--line);border-radius:20px;padding:clamp(1rem,4vw,2rem)}
+.question{padding:1.1rem 0;border-bottom:1px solid var(--line)}
+.question h3{font-size:1.02rem;margin:0 0 .65rem}
+.option{display:block;margin:.45rem 0;padding:.65rem .8rem;border:1px solid #34415f;border-radius:10px;color:var(--muted);cursor:pointer}
+.option:hover{border-color:var(--cyan);color:var(--ink)}
+.option input{accent-color:var(--violet);margin-right:.55rem}
+#result{margin-top:1.2rem;padding:1rem;border-radius:12px;background:#202b49;display:none}
+#result h3{color:var(--gold)}
+.quiz-actions{display:flex;gap:.7rem;flex-wrap:wrap;margin-top:1.2rem}
+.secondary{border:1px solid var(--line);background:#202b49;color:var(--ink);border-radius:999px;padding:.75rem 1.1rem;cursor:pointer;font-weight:700}
+.reflection-box{max-width:850px;margin:auto;text-align:center;color:var(--muted)}
+footer{text-align:center;padding:2rem 1rem;border-top:1px solid var(--line);color:#9da9c2;background:#080d19}
+.small{font-size:.88rem;color:var(--muted)}
+@media(max-width:900px){nav{align-items:flex-start}.menu{display:block}nav ul{display:none;position:absolute;top:58px;left:0;width:100%;padding:1rem 5%;background:#10182b;flex-direction:column;align-items:flex-start;border-bottom:1px solid var(--line)}nav ul.open{display:flex}nav ul a{font-size:1rem}}
+@media(prefers-reduced-motion:reduce){*{scroll-behavior:auto;transition:none!important}}
+</style>
+</head>
+<body>
+<nav>
+  <div class="logo">ECHOES & ALGORITHMS</div>
+  <button class="menu" aria-label="Toggle navigation" onclick="toggleMenu()">☰</button>
+  <ul id="navLinks">
+    <li><a href="#home" onclick="closeMenu()">Home</a></li>
+    <li><a href="#about" onclick="closeMenu()">About</a></li>
+    <li><a href="#media" onclick="closeMenu()">Media</a></li>
+    <li><a href="#literacy" onclick="closeMenu()">Literacy</a></li>
+    <li><a href="#ravat" onclick="closeMenu()">RAVAT</a></li>
+    <li><a href="#application" onclick="closeMenu()">Application</a></li>
+    <li><a href="#quiz" onclick="closeMenu()">Quiz</a></li>
+    <li><a href="#reflection" onclick="closeMenu()">Reflection</a></li>
+    <li><a href="#references" onclick="closeMenu()">References</a></li>
+  </ul>
+</nav>
+
+<header class="hero" id="home">
+ <div class="hero-inner">
+  <div class="kicker">An Electronic Portfolio • Media and Information Literacy</div>
+  <h1>Echoes <span>&</span><br>Algorithms</h1>
+  <p><strong>Navigating the Media Spectrum</strong><br>
+  Discover how media carries messages, shapes perspectives, connects communities, and influences the way we understand the world.</p>
+  <a class="btn" href="#about">Enter the digital showcase ↓</a>
+ </div>
+</header>
+
+<main>
+<section id="about">
+ <div class="section-head"><div class="eyebrow">01 / Welcome</div><h2>About This Portfolio</h2><p>A journey through the changing world of media and information.</p></div>
+ <div class="intro">
+  <p>Welcome to <strong>Echoes & Algorithms: Navigating the Media Spectrum</strong>, an electronic portfolio designed as a small interactive museum. It explores how people create, distribute, access, interpret, and share information through different forms of media.</p>
+  <p>From printed newspapers and radio broadcasts to social networking sites, websites, and interactive technologies, media continues to evolve. Each form offers opportunities to learn and communicate, but each also requires us to think carefully about the messages we encounter.</p>
+  <p>This portfolio aims to develop media awareness, critical thinking, responsible participation, and the habit of checking information before accepting or sharing it.</p>
+ </div>
+ <div class="grid">
+  <article class="card"><div class="icon">🎯</div><h3>Purpose</h3><p>To present the media spectrum in an organized and engaging way while encouraging responsible and informed media use.</p></article>
+  <article class="card"><div class="icon">🔎</div><h3>Learning objectives</h3><p>Identify forms of media, understand their roles, evaluate information sources, and recognize the responsibilities of media users.</p></article>
+  <article class="card"><div class="icon">🌱</div><h3>Key message</h3><p>Being connected is not the same as being informed. We must question, verify, and think critically about the content we consume.</p></article>
+ </div>
+</section>
+
+<section class="band" id="media">
+ <div class="section-head"><div class="eyebrow">02 / The media spectrum</div><h2>Understanding Media</h2><p>What media is, how it works, and why it matters.</p></div>
+ <div class="intro"><p>Media refers to the channels, tools, and platforms used to communicate information, ideas, stories, and messages to an audience. It can inform people about current events, support education, entertain, preserve culture, and encourage public discussion.</p><p>Media messages are created by people or organizations for particular purposes and audiences. Understanding who created a message, why it was created, and how it is presented helps us interpret it more carefully.</p></div>
+ <div class="grid">
+  <article class="card"><div class="icon">📢</div><h3>To inform</h3><p>Media shares news, announcements, research, and explanations that help people understand events and issues.</p></article>
+  <article class="card"><div class="icon">🎓</div><h3>To educate</h3><p>Learning materials, documentaries, tutorials, and educational websites help people develop knowledge and skills.</p></article>
+  <article class="card"><div class="icon">🎭</div><h3>To entertain</h3><p>Films, music, games, shows, and online videos provide enjoyment and creative experiences.</p></article>
+  <article class="card"><div class="icon">🗣️</div><h3>To persuade</h3><p>Advertisements, campaigns, editorials, and advocacy messages try to influence opinions, attitudes, or actions.</p></article>
+ </div>
+ <div class="callout"><strong>Remember:</strong> A message can inform and persuade at the same time. Always consider its purpose, audience, context, and evidence.</div>
+</section>
+
+<section id="traditional">
+ <div class="section-head"><div class="eyebrow">03 / Then and now</div><h2>Traditional Media</h2><p>Communication channels that shaped generations.</p></div>
+ <div class="intro"><p>Traditional media includes long-established forms of mass communication that existed before the widespread use of the internet. These channels helped communities receive shared news, stories, educational content, and entertainment.</p></div>
+ <div class="grid">
+  <article class="card"><div class="icon">📰</div><h3>Print media</h3><p>Newspapers, magazines, books, brochures, and pamphlets communicate through printed words and images. Print can provide detailed information that readers can keep and revisit.</p><p><strong>Example:</strong> A newspaper report about a community event.</p></article>
+  <article class="card"><div class="icon">📻</div><h3>Radio</h3><p>Radio communicates through sound, including spoken reports, interviews, music, and public announcements. It can reach listeners in places where visual media may be less accessible.</p><p><strong>Example:</strong> A local station broadcasting weather updates.</p></article>
+  <article class="card"><div class="icon">📺</div><h3>Television</h3><p>Television combines moving images, sound, and spoken language to present news, educational programs, documentaries, and entertainment.</p><p><strong>Example:</strong> A televised news report or science program.</p></article>
+  <article class="card"><div class="icon">🎞️</div><h3>Film and cinema</h3><p>Films use moving images, sound, dialogue, and storytelling to communicate experiences, ideas, culture, and perspectives.</p><p><strong>Example:</strong> A documentary about environmental protection.</p></article>
+ </div>
+ <div class="callout"><strong>Strengths and limitations:</strong> Traditional media can offer edited, structured content and broad reach. However, publication and broadcast schedules may limit how quickly information is updated, and audiences may have fewer opportunities to respond directly.</div>
+</section>
+
+<section class="band" id="digital">
+ <div class="section-head"><div class="eyebrow">04 / Connected world</div><h2>Digital Media</h2><p>Information created, stored, and shared using digital technology.</p></div>
+ <div class="intro"><p>Digital media includes content distributed through computers, smartphones, the internet, and other electronic devices. It allows information to move quickly across distances and gives users many ways to create, access, and share content.</p></div>
+ <div class="grid">
+  <article class="card"><div class="icon">🌐</div><h3>Websites and blogs</h3><p>Websites publish articles, services, learning resources, portfolios, and updates. Blogs often feature posts written by individuals or groups about particular interests or topics.</p></article>
+  <article class="card"><div class="icon">📱</div><h3>Social networking platforms</h3><p>Social platforms allow users to communicate, join communities, publish posts, exchange ideas, and share photos or videos. Posts can spread quickly, so verification matters.</p></article>
+  <article class="card"><div class="icon">🎧</div><h3>Podcasts and streaming</h3><p>Audio and video streaming services provide interviews, discussions, music, documentaries, and educational programs that audiences can access online.</p></article>
+  <article class="card"><div class="icon">📸</div><h3>Digital images and video</h3><p>Photographs, infographics, animations, and videos can explain complex ideas visually. They should be checked for context, editing, and original source.</p></article>
+ </div>
+ <div class="callout"><strong>Digital responsibility:</strong> Protect personal information, respect other people, check privacy settings, credit creators, and pause before reposting claims that may be misleading.</div>
+</section>
+
+<section id="interactive">
+ <div class="section-head"><div class="eyebrow">05 / Participation</div><h2>Interactive Media</h2><p>Media experiences that respond to the user.</p></div>
+ <div class="intro"><p>Interactive media allows audiences to do more than receive a message. Users can click, choose, comment, navigate, create, or otherwise influence their experience. Interaction can make learning more engaging, but users should still consider safety, accuracy, and the purpose of the platform.</p></div>
+ <div class="grid">
+  <article class="card"><div class="icon">🎮</div><h3>Video games</h3><p>Games invite players to make decisions, solve problems, and interact with digital environments. Some are designed for entertainment, while others support learning or training.</p></article>
+  <article class="card"><div class="icon">🧭</div><h3>Interactive websites</h3><p>Menus, clickable maps, quizzes, forms, and galleries let visitors explore content according to their interests and choices.</p></article>
+  <article class="card"><div class="icon">🤖</div><h3>Artificial intelligence</h3><p>AI tools can help generate, organize, or analyze content. Their outputs still need human review because they may contain errors, omissions, or misleading details.</p></article>
+  <article class="card"><div class="icon">🥽</div><h3>Virtual and augmented reality</h3><p>Virtual reality creates immersive digital environments, while augmented reality adds digital elements to views of the real world.</p></article>
+ </div>
+</section>
+
+<section class="band" id="literacy">
+ <div class="section-head"><div class="eyebrow">06 / Think before you share</div><h2>Media and Information Literacy</h2><p>Skills for finding, understanding, evaluating, and using information.</p></div>
+ <div class="intro"><p>Media and Information Literacy (MIL) is the ability to access, analyze, evaluate, create, and communicate information in different forms. It helps people make informed decisions and participate responsibly in society.</p><p>A media-literate person does not automatically believe every headline, image, video, or viral post. Instead, they consider the source, look for supporting evidence, recognize possible bias, and compare information with credible references.</p></div>
+ <div class="grid">
+  <article class="card"><h3>Access information</h3><p>Know how to locate information using libraries, databases, search engines, news outlets, and other resources.</p></article>
+  <article class="card"><h3>Analyze messages</h3><p>Identify the creator, intended audience, purpose, language, framing, and context of a message.</p></article>
+  <article class="card"><h3>Evaluate sources</h3><p>Check evidence, authorship, publication details, relevance, and whether other trustworthy sources confirm the claims.</p></article>
+  <article class="card"><h3>Create responsibly</h3><p>Produce content honestly, respect copyright, represent people fairly, and distinguish facts from opinions.</p></article>
+ </div>
+</section>
+
+<section id="ravat">
+ <div class="section-head"><div class="eyebrow">07 / Source evaluation</div><h2>The RAVAT Framework</h2><p>Reliability • Accuracy • Value • Authority • Timeliness</p></div>
+ <div class="intro"><p>RAVAT is a practical checklist for examining information before using or sharing it. These five considerations help readers judge whether a source is dependable and suitable for a particular purpose. Apply all five rather than relying on only one.</p></div>
+ <div class="ravat-grid">
+  <article class="ravat-card"><div class="letter">R</div><h3>Reliability</h3><p>Reliability asks whether a source can be trusted to provide dependable information. Consider the source's reputation, transparency, consistency, and whether its claims are supported by evidence.</p><p class="prompt">Ask: Does the source have a trustworthy record? Can its claims be checked against other credible sources?</p></article>
+  <article class="ravat-card"><div class="letter">A</div><h3>Accuracy</h3><p>Accuracy concerns whether the information is correct, precise, and supported by verifiable facts. Check names, dates, figures, quotations, links, and the evidence behind claims.</p><p class="prompt">Ask: Are the facts correct? Is evidence provided? Do independent sources confirm the details?</p></article>
+  <article class="ravat-card"><div class="letter">V</div><h3>Value</h3><p>Value refers to how useful, relevant, and appropriate information is for your topic or purpose. A source may be trustworthy but still not answer the question you are researching.</p><p class="prompt">Ask: Does this information help answer my question? Is it relevant to my audience and purpose?</p></article>
+  <article class="ravat-card"><div class="letter">A</div><h3>Authority</h3><p>Authority concerns who created or published the information and what qualifications, experience, or institutional responsibility they have. Look for an author's name, credentials, organization, and contact or editorial information.</p><p class="prompt">Ask: Who is responsible for this content? Do they have relevant knowledge or expertise?</p></article>
+  <article class="ravat-card"><div class="letter">T</div><h3>Timeliness</h3><p>Timeliness considers when the information was published, updated, or reviewed and whether it is still current enough for your topic. Some subjects change quickly, while historical facts may remain useful over time.</p><p class="prompt">Ask: When was it published or updated? Does this topic require the latest information?</p></article>
+ </div>
+ <div class="callout"><strong>Important:</strong> RAVAT is a guide, not a guarantee. A source can perform well in one area and poorly in another. Always consider the topic and the evidence as a whole.</div>
+</section>
+
+<section class="band" id="application">
+ <div class="section-head"><div class="eyebrow">08 / Put it into practice</div><h2>Applying RAVAT to an Online Article</h2><p>Imagine you find an article claiming that a new study has discovered a major health benefit.</p></div>
+ <div class="example">
+  <h3 style="color:var(--gold)">Sample situation</h3>
+  <p class="muted">A post on a social media page says, “A new study proves that one everyday food prevents all illnesses.” It does not name the study, link to research, identify an author, or show a publication date.</p>
+  <div class="table-wrap">
+   <table>
+    <thead><tr><th>RAVAT criterion</th><th>What should you check?</th><th>Initial observation</th></tr></thead>
+    <tbody>
+     <tr><td>Reliability</td><td>Is the page known for dependable reporting?</td><td>The post provides no evidence of a reliable track record.</td></tr>
+     <tr><td>Accuracy</td><td>Can the broad health claim be verified by research?</td><td>No study or supporting evidence is linked.</td></tr>
+     <tr><td>Value</td><td>Does it provide useful information for your purpose?</td><td>The claim is too broad to guide a sound decision.</td></tr>
+     <tr><td>Authority</td><td>Who wrote it, and what relevant expertise do they have?</td><td>No author or qualified source is identified.</td></tr>
+     <tr><td>Timeliness</td><td>When was it published, and is it current?</td><td>No publication or update date is shown.</td></tr>
+    </tbody>
+   </table>
+  </div>
+  <p style="margin-top:1rem"><strong>Conclusion:</strong> Do not share the claim as fact. Look for the original research, check reputable health institutions, and compare independent sources. The missing information means the post has not established that its claim is trustworthy.</p>
+ </div>
+</section>
+
+<section id="quiz">
+ <div class="section-head"><div class="eyebrow">09 / Check your understanding</div><h2>Media Literacy Challenge</h2><p>Answer all 10 questions and see your result immediately.</p></div>
+ <div class="quiz">
+  <form id="quizForm">
+   <div class="question"><h3>1. What is the main purpose of media?</h3>
+    <label class="option"><input type="radio" name="q1" value="a"> A. To communicate information, ideas, and messages</label>
+    <label class="option"><input type="radio" name="q1" value="b"> B. To replace all face-to-face communication</label>
+    <label class="option"><input type="radio" name="q1" value="c"> C. To provide entertainment only</label>
+    <label class="option"><input type="radio" name="q1" value="d"> D. To prevent people from sharing opinions</label>
+   </div>
+   <div class="question"><h3>2. Which is an example of traditional print media?</h3>
+    <label class="option"><input type="radio" name="q2" value="a"> A. Podcast</label>
+    <label class="option"><input type="radio" name="q2" value="b"> B. Newspaper</label>
+    <label class="option"><input type="radio" name="q2" value="c"> C. Social networking site</label>
+    <label class="option"><input type="radio" name="q2" value="d"> D. Video game</label>
+   </div>
+   <div class="question"><h3>3. Which feature best describes interactive media?</h3>
+    <label class="option"><input type="radio" name="q3" value="a"> A. It is always printed on paper</label>
+    <label class="option"><input type="radio" name="q3" value="b"> B. It can only be received through radio</label>
+    <label class="option"><input type="radio" name="q3" value="c"> C. It allows users to participate or respond</label>
+    <label class="option"><input type="radio" name="q3" value="d"> D. It never changes based on user actions</label>
+   </div>
+   <div class="question"><h3>4. In RAVAT, what does Reliability evaluate?</h3>
+    <label class="option"><input type="radio" name="q4" value="a"> A. Whether the source can be trusted</label>
+    <label class="option"><input type="radio" name="q4" value="b"> B. Whether the article has colorful images</label>
+    <label class="option"><input type="radio" name="q4" value="c"> C. Whether the text is very long</label>
+    <label class="option"><input type="radio" name="q4" value="d"> D. Whether the post is popular</label>
+   </div>
+   <div class="question"><h3>5. Which action best checks Accuracy?</h3>
+    <label class="option"><input type="radio" name="q5" value="a"> A. Sharing the post immediately</label>
+    <label class="option"><input type="radio" name="q5" value="b"> B. Checking facts against evidence and other credible sources</label>
+    <label class="option"><input type="radio" name="q5" value="c"> C. Trusting a claim because it has many likes</label>
+    <label class="option"><input type="radio" name="q5" value="d"> D. Judging the source by its profile picture</label>
+   </div>
+   <div class="question"><h3>6. What does Value mean when evaluating a source?</h3>
+    <label class="option"><input type="radio" name="q6" value="a"> A. The price of the device used to read it</label>
+    <label class="option"><input type="radio" name="q6" value="b"> B. The number of comments it receives</label>
+    <label class="option"><input type="radio" name="q6" value="c"> C. Its usefulness and relevance to your purpose</label>
+    <label class="option"><input type="radio" name="q6" value="d"> D. The design and color of the website</label>
+   </div>
+   <div class="question"><h3>7. Which question helps evaluate Authority?</h3>
+    <label class="option"><input type="radio" name="q7" value="a"> A. How many people shared the post?</label>
+    <label class="option"><input type="radio" name="q7" value="b"> B. Who created the content, and are they qualified?</label>
+    <label class="option"><input type="radio" name="q7" value="c"> C. Is the headline written in capital letters?</label>
+    <label class="option"><input type="radio" name="q7" value="d"> D. Does the page use animations?</label>
+   </div>
+   <div class="question"><h3>8. Which detail is most relevant to Timeliness?</h3>
+    <label class="option"><input type="radio" name="q8" value="a"> A. The author's favorite color</label>
+    <label class="option"><input type="radio" name="q8" value="b"> B. The number of images in the article</label>
+    <label class="option"><input type="radio" name="q8" value="c"> C. The website's background design</label>
+    <label class="option"><input type="radio" name="q8" value="d"> D. The publication or update date</label>
+   </div>
+   <div class="question"><h3>9. A viral post makes a surprising claim but gives no author, evidence, or source. What should you do?</h3>
+    <label class="option"><input type="radio" name="q9" value="a"> A. Share it because many people have seen it</label>
+    <label class="option"><input type="radio" name="q9" value="b"> B. Assume it is true because it is trending</label>
+    <label class="option"><input type="radio" name="q9" value="c"> C. Verify it using credible sources before sharing</label>
+    <label class="option"><input type="radio" name="q9" value="d"> D. Add a stronger headline to attract attention</label>
+   </div>
+   <div class="question"><h3>10. Which statement best describes a media-literate person?</h3>
+    <label class="option"><input type="radio" name="q10" value="a"> A. Someone who believes every online post</label>
+    <label class="option"><input type="radio" name="q10" value="b"> B. Someone who accesses, analyzes, evaluates, and uses information responsibly</label>
+    <label class="option"><input type="radio" name="q10" value="c"> C. Someone who uses only one type of media</label>
+    <label class="option"><input type="radio" name="q10" value="d"> D. Someone who shares information without checking it</label>
+   </div>
+   <div class="quiz-actions">
+    <button class="btn" type="button" onclick="gradeQuiz()">Submit answers</button>
+    <button class="secondary" type="reset" onclick="resetQuiz()">Retake quiz</button>
+   </div>
+  </form>
+  <div id="result" aria-live="polite"></div>
+  <p class="small">Choose one answer for each question. Your score and explanations will appear after submission.</p>
+ </div>
+</section>
+
+<section class="band" id="reflection">
+ <div class="section-head"><div class="eyebrow">10 / Looking back</div><h2>Personal Reflection</h2><p>Learning beyond the screen.</p></div>
+ <div class="reflection-box">
+  <p>Creating and exploring this portfolio shows that media is more than a tool for entertainment or communication. It influences how people receive information, form opinions, understand issues, and interact with society. Different forms of media offer different opportunities and challenges, so it is important to understand how each one works.</p>
+  <p>One important lesson is that information should not be accepted simply because it appears online or is shared by many people. The RAVAT framework reminds us to examine Reliability, Accuracy, Value, Authority, and Timeliness. By applying these criteria, we can become more careful readers, responsible creators, and thoughtful members of the digital community.</p>
+ </div>
+</section>
+
+<section id="references">
+ <div class="section-head"><div class="eyebrow">11 / Give credit</div><h2>References & Acknowledgments</h2><p>Recognizing the sources and creators behind the information.</p></div>
+ <div class="intro">
+  <p>Add the actual books, class modules, articles, institutional websites, and other materials consulted while preparing this portfolio. Include author or organization, publication date, title, and URL where applicable.</p>
+  <p>Also acknowledge the original creators of photographs, illustrations, videos, and other media assets. Do not list sources that you did not actually use.</p>
+  <div class="callout" style="text-align:left"><strong>Reference template:</strong><br>Author or Organization. (Year, Month Day). <em>Title of the page or material.</em> Publisher or Website. URL</div>
+ </div>
+</section>
+</main>
+<footer>
+ <p><strong>Echoes & Algorithms</strong> — Navigating the Media Spectrum</p>
+ <p>Electronic Portfolio for Media and Information Literacy • 2026</p>
+ <p class="small">Replace sample descriptions and reference placeholders with your own class work and verified sources.</p>
+</footer>
+
+<script>
+function toggleMenu(){document.getElementById('navLinks').classList.toggle('open')}
+function closeMenu(){document.getElementById('navLinks').classList.remove('open')}
+
+const answers={
+ q1:{key:'a',why:'Media is used to communicate information, ideas, and messages to audiences.'},
+ q2:{key:'b',why:'A newspaper is a printed publication and is an example of traditional print media.'},
+ q3:{key:'c',why:'Interactive media lets users participate, respond, or influence their experience.'},
+ q4:{key:'a',why:'Reliability considers whether a source is dependable and can be trusted.'},
+ q5:{key:'b',why:'Accuracy is checked by comparing claims with evidence and credible sources.'},
+ q6:{key:'c',why:'Value concerns whether information is useful and relevant to the reader’s purpose.'},
+ q7:{key:'b',why:'Authority concerns the identity, qualifications, and expertise of the author or organization.'},
+ q8:{key:'d',why:'The publication or update date helps determine whether information is current enough.'},
+ q9:{key:'c',why:'A surprising claim without evidence should be verified before it is shared.'},
+ q10:{key:'b',why:'Media literacy involves accessing, analyzing, evaluating, and responsibly using information.'}
+};
+
+function gradeQuiz(){
+ const form=document.getElementById('quizForm');
+ let score=0, unanswered=0, feedback='';
+ for(let i=1;i<=10;i++){
+  const chosen=form.querySelector('input[name="q'+i+'"]:checked');
+  if(!chosen){unanswered++;feedback+='<p>Question '+i+': Not answered. '+answers['q'+i].why+'</p>';continue;}
+  if(chosen.value===answers['q'+i].key){score++;feedback+='<p>Question '+i+': ✓ '+answers['q'+i].why+'</p>';}
+  else{feedback+='<p>Question '+i+': ✗ '+answers['q'+i].why+'</p>';}
+ }
+ const result=document.getElementById('result');
+ let message=score>=9?'Excellent! You demonstrate a strong understanding of media literacy.':score>=7?'Good job! Review the explanations to strengthen your understanding.':score>=5?'You are making progress. Revisit the media and RAVAT sections and try again.':'Keep learning! Review the lessons and take the quiz again.';
+ result.innerHTML='<h3>Your score: '+score+'/10</h3><p>'+message+'</p><p>'+unanswered+' unanswered question(s).</p><hr style="border-color:#34415f;margin:1rem 0">'+feedback;
+ result.style.display='block';
+ result.scrollIntoView({behavior:'smooth',block:'nearest'});
+}
+function resetQuiz(){
+ const result=document.getElementById('result');
+ result.style.display='none';
+ result.innerHTML='';
+}
+</script>
+</body>
+</html>
